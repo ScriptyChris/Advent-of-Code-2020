@@ -1,21 +1,19 @@
 const { resolve } = require('path');
 const { readFileSync } = require('fs');
 
-const input = readFileSync(resolve(__dirname, './input.txt'), { encoding: 'utf8' });
-const numbersFromInput = [5, 10, 1995, 20, 10]; /*input.match(/\d+/g).map(Number);*/
+const input = readFileSync(resolve(__dirname, '../part-1/input.txt' /*'./input.txt'*/), { encoding: 'utf8' });
+const numbersFromInput = /*[5, 10, 1995, 20, 10]*/ input.match(/\d+/g).map(Number);
+console.log('numbersFromInput', numbersFromInput);
 
 const expectedSum = 2020;
-const expectedNumbersToSum = 3;
+const expectedNumbersToSum = 2;
 
 debugger;
 
-const result = loop(0, []);
-console.log(
-  'Sum:',
-  result.sum,
-  ' /Multiplication:',
-  result.values.reduce((multiplication, v) => multiplication * v, 1)
-);
+const { sum, values } = loop(0, []);
+const multiplication = values.reduce((multiplication, v) => multiplication * v, 1);
+
+console.log('Sum:', sum, ' /Multiplication:', multiplication);
 
 function loop(round, previousValues) {
   // console.log('round', round);
@@ -37,6 +35,7 @@ function loop(round, previousValues) {
       // console.log('currentValue', currentValue, '/prevs', previousValues, ' /sum', sum);
 
       if (sum === expectedSum) {
+        console.log('found', sum);
         return {
           sum,
           values: [...previousValues, currentValue],
