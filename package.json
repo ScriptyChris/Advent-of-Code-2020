@@ -1,17 +1,29 @@
 {
   "name": "Advent-of-Code-2020",
+  "author": "ScriptyChris",
   "version": "1.0.0",
   "description": "https://adventofcode.com/2020/about",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "advent of code",
     "puzzle"
   ],
-  "author": "ScriptyChris",
   "license": "ISC",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write main.js days/**/part-*/*.js",
+    "start": "nodemon --exec \"npm run prettier && node main.js\""
+  },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "./days/1/part-1/index.js"
+    ]
   }
 }
