@@ -1,7 +1,7 @@
 const { resolve } = require('path');
 const { readFileSync } = require('fs');
 
-const input = readFileSync(resolve(__dirname,'./input.txt'), { encoding: 'utf8' });
+const input = readFileSync(resolve(__dirname, './input.txt'), { encoding: 'utf8' });
 const numbersFromInput = input.match(/\d+/g);
 const numbersFromInputLen = numbersFromInput.length;
 

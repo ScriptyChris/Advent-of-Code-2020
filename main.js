@@ -10,7 +10,11 @@ if (!scriptRunFromProjectRoot && pathIncludesDayParts) {
   console.log(`Run ${targetScriptPath}\n`);
   require(targetScriptPath);
 } else {
-  console.error(chalk.bold.white.bgRed('Please, run "npm start" in folder within the specific part of a challenge day, e.g: "./days/1/part-1"'));
+  console.error(
+    chalk.bold.white.bgRed(
+      'Please, run "npm start" in folder within the specific part of a challenge day, e.g: "./days/1/part-1"'
+    )
+  );
   process.exit();
 }
 
