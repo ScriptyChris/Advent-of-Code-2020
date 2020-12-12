@@ -26,7 +26,7 @@
     "watch": [
       "./days/1/part-1/index.js",
       "./days/1/part-2/index.js",
-      "./days/2/part-1/index.js"
+      "./days/12/index.js"
     ]
   }
 }

@@ -3,7 +3,7 @@ const chalk = require('chalk');
 
 const INIT_CWD = process.env.INIT_CWD;
 const scriptRunFromProjectRoot = INIT_CWD === __dirname;
-const pathIncludesDayParts = /days\|\d+\|part-\d+/.test(getPipeSeparatedPath(INIT_CWD));
+const pathIncludesDayParts = /days\|\d+(\|part-\d+)?/.test(getPipeSeparatedPath(INIT_CWD));
 
 if (!scriptRunFromProjectRoot && pathIncludesDayParts) {
   const targetScriptPath = `${INIT_CWD}${sep}index.js`;
