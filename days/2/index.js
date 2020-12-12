@@ -2,76 +2,82 @@ const { readFileSync } = require('fs');
 const { resolve } = require('path');
 
 const input = readFileSync(resolve(__dirname, './input.txt'), { encoding: 'utf8' });
-const instructions = input.match(/\w\d+/g);
 
 const CONSTANTS = Object.freeze({
   directions: ['N','E','S','W'],
   quarters: 4,
   turnAngle: 90
 });
-const shipPosition = {
-  coordinates: {
-    x: 0,
-    y: 0
-  },
-  direction: 'E',
-};
 
-// console.log('instructions', instructions);
+class ShipPositioning {
+  constructor(input) {
+    this.shipPosition = {
+      coordinates: {
+        x: 0,
+        y: 0
+      },
+      direction: 'E',
+    };
+    this.instructions = input.match(/\w\d+/g);
+  }
 
-instructions.forEach((instruction) => {
-  const direction = instruction[0];
-  const value = Number(instruction.slice(1));
+  processShipPosition(direction, value) {
+    switch (direction) {
+      case 'N': {
+        this.shipPosition.coordinates.y += value
+        break;
+      }
 
-  processShipPosition(direction, value);
-});
+      case 'S': {
+        this.shipPosition.coordinates.y -= value
+        break;
+      }
 
-const manhattanDistance = Math.abs(shipPosition.coordinates.x) + Math.abs(shipPosition.coordinates.y);
-console.log('manhattanDistance', manhattanDistance, ' /shipPosition', shipPosition)
+      case 'E': {
+        this.shipPosition.coordinates.x += value
+        break;
+      }
 
-function processShipPosition(direction, value) {
-  switch (direction) {
-    case 'N': {
-      shipPosition.coordinates.y += value
-      break;
+      case 'W': {
+        this.shipPosition.coordinates.x -= value
+        break;
+      }
+
+      case 'L': {
+        this.shipPosition.direction = this.getDirectionByAngleDegrees(-value);
+        break;
+      }
+      case 'R': {
+        this.shipPosition.direction = this.getDirectionByAngleDegrees(value);
+        break;
+      }
+
+      case 'F': {
+        this.processShipPosition(this.shipPosition.direction, value);
+        break;
+      }
     }
+  }
 
-    case 'S': {
-      shipPosition.coordinates.y -= value
-      break;
-    }
+  getDirectionByAngleDegrees(degrees) {
+    const indexOfOldDirection = CONSTANTS.directions.indexOf(this.shipPosition.direction);
+    const numberOfNewDirection = degrees / CONSTANTS.turnAngle;
+    const directionIndex = (((indexOfOldDirection + numberOfNewDirection) % CONSTANTS.quarters) + CONSTANTS.quarters) % CONSTANTS.quarters;
 
-    case 'E': {
-      shipPosition.coordinates.x += value
-      break;
-    }
+    return CONSTANTS.directions[directionIndex];
+  }
 
-    case 'W': {
-      shipPosition.coordinates.x -= value
-      break;
-    }
+  getCalculatedManhattanDistance() {
+    this.instructions.forEach((instruction) => {
+      const direction = instruction[0];
+      const value = Number(instruction.slice(1));
 
-    case 'L': {
-      shipPosition.direction = getDirectionByAngleDegrees(-value);
-      break;
-    }
-    case 'R': {
-      shipPosition.direction = getDirectionByAngleDegrees(value);
-      break;
-    }
+      this.processShipPosition(direction, value);
+    });
 
-    case 'F': {
-      processShipPosition(shipPosition.direction, value);
-
-      break;
-    }
+    return Math.abs(this.shipPosition.coordinates.x) + Math.abs(this.shipPosition.coordinates.y);
   }
 }
 
-function getDirectionByAngleDegrees(degrees) {
-  const indexOfOldDirection = CONSTANTS.directions.indexOf(shipPosition.direction);
-  const numberOfNewDirection = degrees / CONSTANTS.turnAngle;
-  const directionIndex = (((indexOfOldDirection + numberOfNewDirection) % CONSTANTS.quarters) + CONSTANTS.quarters) % CONSTANTS.quarters;
-
-  return CONSTANTS.directions[directionIndex];
-}
+const shipPositioning = new ShipPositioning(input);
+console.log('Manhattan distance:',shipPositioning.getCalculatedManhattanDistance());
