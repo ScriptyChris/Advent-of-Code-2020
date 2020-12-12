@@ -1,46 +1,45 @@
 const { resolve } = require('path');
 const { readFileSync } = require('fs');
 
-const input = readFileSync(resolve(__dirname, '../part-1/input.txt' /*'./input.txt'*/), { encoding: 'utf8' });
-const numbersFromInput = /*[5, 10, 1995, 20, 10]*/ input.match(/\d+/g).map(Number);
-console.log('numbersFromInput', numbersFromInput);
+const input = readFileSync(resolve(__dirname, './input.txt'), { encoding: 'utf8' });
+const numbersFromInput = input.match(/\d+/g).map(Number);
 
 const expectedSum = 2020;
-const expectedNumbersToSum = 2;
+const expectedNumbersToSum = 3;
 
-debugger;
+const { sum, values } = findSumRecursively();
+console.log('Sum:', sum, '\nValues', values, '\nMultiplication:', multiply(values));
 
-const { sum, values } = loop(0, []);
-const multiplication = values.reduce((multiplication, v) => multiplication * v, 1);
+function findSumRecursively(upperIndex = 0, previousValues = [], depth = 0) {
+  if (depth < expectedNumbersToSum) {
+    for (let i = upperIndex; i < numbersFromInput.length; i++) {
+      const currentValue = numbersFromInput[i];
+      previousValues[upperIndex] = currentValue;
 
-console.log('Sum:', sum, ' /Multiplication:', multiplication);
-
-function loop(round, previousValues) {
-  // console.log('round', round);
-
-  for (let j = round; j < numbersFromInput.length; j++) {
-    let currentValue = numbersFromInput[j];
-
-    if (round < expectedNumbersToSum) {
-      previousValues[round] = currentValue;
-
-      const result = loop(j + 1, previousValues);
+      const result = findSumRecursively(upperIndex + 1, previousValues, depth + 1);
 
       if (result) {
         return result;
       }
-    } else {
-      const sum = currentValue + previousValues.reduce((total, value) => total + value, 0);
-
-      // console.log('currentValue', currentValue, '/prevs', previousValues, ' /sum', sum);
-
-      if (sum === expectedSum) {
-        console.log('found', sum);
-        return {
-          sum,
-          values: [...previousValues, currentValue],
-        };
-      }
     }
   }
+
+  const sum = previousValues.reduce(doSum, 0);
+
+  if (sum === expectedSum) {
+    return {
+      sum,
+      values: previousValues,
+    };
+  }
+
+  return null;
+}
+
+function doSum(total, value) {
+  return total + value;
+}
+
+function multiply(values) {
+  return values.reduce((multiplication, v) => multiplication * v, 1);
 }
