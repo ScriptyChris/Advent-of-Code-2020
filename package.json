@@ -12,7 +12,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write main.js days/**/part-*/*.js",
-    "start": "nodemon --exec \"npm run prettier && node main.js\""
+    "start": "nodemon --exec \"npm run prettier && node main.js\"",
+    "debug": "nodemon --exec \"npm run prettier && node --inspect-brk main.js\""
   },
   "devDependencies": {
     "nodemon": "^2.0.6",
@@ -23,7 +24,9 @@
   },
   "nodemonConfig": {
     "watch": [
-      "./days/1/part-1/index.js"
+      "./days/1/part-1/index.js",
+      "./days/1/part-2/index.js",
+      "./days/2/part-1/index.js"
     ]
   }
 }
