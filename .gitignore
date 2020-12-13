@@ -1,3 +1,4 @@
 node_modules/
 .idea/
-days/**/part-*/input*
+days/**/input*
+days/**/part-*/test*

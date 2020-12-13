@@ -8,25 +8,25 @@
     "puzzle"
   ],
   "license": "ISC",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier --write main.js days/**/part-*/*.js",
-    "start": "nodemon --exec \"npm run prettier && node main.js\"",
-    "debug": "nodemon --exec \"npm run prettier && node --inspect-brk main.js\""
+    "prettier": "prettier --write index.js days/**/*.js",
+    "start": "nodemon --exec \"npm run prettier && node index.js\"",
+    "debug": "nodemon --exec \"npm run prettier && node --inspect-brk index.js\""
   },
   "devDependencies": {
     "nodemon": "^2.0.6",
     "prettier": "^2.2.1"
   },
   "dependencies": {
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "glob": "^7.1.6"
   },
   "nodemonConfig": {
     "watch": [
-      "./days/1/part-1/index.js",
-      "./days/1/part-2/index.js",
-      "./days/12/index.js"
+      "./index.js",
+      "./days/**/*.js"
     ]
   }
 }
