@@ -2,53 +2,36 @@ const { readFileSync } = require('fs');
 const { resolve } = require('path');
 const { EOL } = require('os');
 
-const answers = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' }).trim(); /*`abc
+const answers = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' }).trim();
 
-a
-b
-c
+const onlySameAnswersSum = parseAnswers().reduce((sum, answers) => sum + answers, 0);
+console.log('onlySameAnswersSum:', onlySameAnswersSum);
 
-ab
-ac
+function parseAnswers() {
+  return answers.split(EOL.repeat(2)).map((peopleAnswers) => {
+    const groupAnswers = peopleAnswers.split(EOL);
 
-a
-a
-a
-a
+    sortFromLeastToMostYesAnswers(groupAnswers);
 
-b`;*/
+    const leastYesAnswersInGroup = groupAnswers[0];
+    const remainingGroupAnswers = groupAnswers.slice(1);
+    const repeatedAnswers = getRepeatedAnswers(leastYesAnswersInGroup, remainingGroupAnswers);
 
-const parsedAnswers = answers.split(/*'\n'*/ EOL.repeat(2)).map((groupAnswers) => {
-  const peopleAnswers = groupAnswers.split(/*'\n'*/ EOL);
-  console.log('peopleAnswers:', peopleAnswers);
+    return repeatedAnswers.join('').length;
+  });
+}
 
-  if (peopleAnswers.length === 1) {
-    return peopleAnswers;
-  }
+function sortFromLeastToMostYesAnswers(groupAnswers) {
+  return groupAnswers.sort((prev, next) => prev.length - next.length);
+}
 
-  const repeatedAnswers = new Set();
-
-  // sort from the least to the most occurrences of "yes" answers
-  peopleAnswers.sort((prev, next) => prev.length - next.length);
-  const leastYesAnswers = peopleAnswers[0];
-  const remainingPeopleAnswers = peopleAnswers.slice(1);
-
-  for (let i = 0; i < leastYesAnswers.length; i++) {
-    const answer = leastYesAnswers[i];
-
-    const isAnswerRepeated = remainingPeopleAnswers.every((personAnswers) => personAnswers.includes(answer));
-
-    if (isAnswerRepeated) {
-      repeatedAnswers.add(answer);
+function getRepeatedAnswers(leastYesAnswersInGroup, remainingGroupAnswers) {
+  return [].filter.call(leastYesAnswersInGroup, (answer) => {
+    if (remainingGroupAnswers.length === 0) {
+      return true;
     }
-  }
 
-  return repeatedAnswers.size ? [...repeatedAnswers] : [];
-});
-
-const onlySameAnswersCount = /*onlySameAnswers*/ parsedAnswers.reduce(
-  (sum, answers) => sum + answers.join('').length,
-  0
-);
-
-console.log('onlySameAnswersCount:', onlySameAnswersCount);
+    const isAnswerRepeated = remainingGroupAnswers.every((personAnswers) => personAnswers.includes(answer));
+    return isAnswerRepeated;
+  });
+}
