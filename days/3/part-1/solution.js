@@ -1,9 +1,6 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
-const { EOL } = require('os');
+const utils = require('../../../utils');
 
-const input = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' });
-const rows = input.trim().split(EOL);
+const rows = utils.getInput({ trimBeforeSplit: true });
 
 const INITIAL_DIMENSIONS = Object.freeze({
   ROWS: rows.length,
@@ -22,15 +19,9 @@ const POINT = Object.freeze({
 
 const timesToExtendMapWidth = Math.ceil((INITIAL_DIMENSIONS.ROWS * STEPS.RIGHT) / INITIAL_DIMENSIONS.COLUMNS);
 const HORIZONTALLY_EXTENDED_INPUT_MAP = rows.map((row) => row.repeat(timesToExtendMapWidth));
-console.log('HORIZONTALLY_EXTENDED_INPUT_MAP:', HORIZONTALLY_EXTENDED_INPUT_MAP);
 
 const pointsEncounteredOnMap = goThroughMap();
-console.log(
-  'pointsEncounteredOnMap:',
-  pointsEncounteredOnMap,
-  ' /trees encountered: ',
-  pointsEncounteredOnMap[POINT.TREE]
-);
+console.log('trees encountered: ', pointsEncounteredOnMap[POINT.TREE]);
 
 function goThroughMap() {
   let pointsEncountered = {

@@ -1,13 +1,13 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
-const { EOL } = require('os');
+const utils = require('../../../utils');
 
 const numberOfAllPassportFields = 8;
 const optionalPassportField = 'cid';
-const passports = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' })
-  .split(new RegExp(EOL.repeat(2), 'g'))
+const passports = utils
+  .getInput({
+    shouldDoubleSplit: true,
+  })
   .map((data) => {
-    const dataArray = data.split(new RegExp(`\\s|${EOL}`, 'g')).filter(Boolean);
+    const dataArray = data.split(new RegExp(`\\s|${utils.EOL}`, 'g')).filter(Boolean);
     return dataArray.reduce((passport, dataEntry) => {
       const [key, value] = dataEntry.split(':');
 

@@ -1,7 +1,6 @@
-const { resolve } = require('path');
-const { readFileSync } = require('fs');
+const utils = require('../../../utils');
 
-const input = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' });
+const input = utils.getInput({ splitBy: null });
 const numbersFromInput = input.match(/\d+/g);
 const numbersFromInputLen = numbersFromInput.length;
 

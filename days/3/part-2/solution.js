@@ -1,9 +1,6 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
-const { EOL } = require('os');
+const utils = require('../../../utils');
 
-const input = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' });
-const rows = input.trim().split(EOL);
+const rows = utils.getInput({ trimBeforeSplit: true });
 
 const INITIAL_DIMENSIONS = Object.freeze({
   ROWS: rows.length,
@@ -39,10 +36,8 @@ const subsequentStepsObjects = [
 ];
 
 const pointsEncounteredOnMap = processStepsThoughMap(subsequentStepsObjects);
-const encounteredTreesMultiplied = pointsEncounteredOnMap.reduce(
-  (multiplication, pointSymbol) => multiplication * pointSymbol[POINT_SYMBOL.TREE],
-  1
-);
+const encounteredTreesMultiplied = pointsEncounteredOnMap /* TODO: use utils.multiply with custom param */
+  .reduce((multiplication, pointSymbol) => multiplication * pointSymbol[POINT_SYMBOL.TREE], 1);
 console.log('encounteredTreesMultiplied:', encounteredTreesMultiplied);
 
 function extendMapWidth(stepsToTheRight) {

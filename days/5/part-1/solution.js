@@ -1,10 +1,6 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
+const utils = require('../../../utils');
 
-const input = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' }).split('\n');
-// console.log('input', input);
-
-// const seatCode = 'FBFBBFFRLR';
+const input = utils.getInput();
 
 const HALF = 2;
 const POSITION_MAP = Object.freeze({
@@ -27,15 +23,6 @@ const seatIds = input.map((seatCode) => {
 
   for (const seatCodeChar of seatCode) {
     const seatPositionRange = seatPositionMap[seatCodeChar];
-
-    // console.log(
-    //   'seatCodeChar',
-    //   seatCodeChar,
-    //   ' /seatPositionMap',
-    //   seatPositionMap,
-    //   ' /seatPositionRange:',
-    //   seatPositionRange
-    // );
 
     if (seatCodeChar === POSITION_MAP.FRONT || seatCodeChar === POSITION_MAP.LEFT) {
       const lowerHalf = seatPositionRange[0] / HALF;

@@ -1,7 +1,6 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
+const utils = require('../../../utils');
 
-const input = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' }).split(',').map(Number);
+const input = utils.getInput({ splitBy: null }).split(',').map(Number);
 console.log('input:', input);
 
 const LOOP_LIMIT = 30000000;

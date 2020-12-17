@@ -1,14 +1,13 @@
-const { resolve } = require('path');
-const { readFileSync } = require('fs');
+const utils = require('../../../utils');
 
-const input = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' });
+const input = utils.getInput({ splitBy: null });
 const numbersFromInput = input.match(/\d+/g).map(Number);
 
 const expectedSum = 2020;
 const expectedNumbersToSum = 3;
 
 const { sum, values } = findSumRecursively();
-console.log('Sum:', sum, '\nValues', values, '\nMultiplication:', multiply(values));
+console.log('Sum:', sum, '\nValues', values, '\nMultiplication:', utils.multiply(values));
 
 function findSumRecursively(upperIndex = 0, previousValues = [], depth = 0) {
   if (depth < expectedNumbersToSum) {
@@ -24,7 +23,7 @@ function findSumRecursively(upperIndex = 0, previousValues = [], depth = 0) {
     }
   }
 
-  const sum = previousValues.reduce(doSum, 0);
+  const sum = utils.add(previousValues);
 
   if (sum === expectedSum) {
     return {
@@ -34,12 +33,4 @@ function findSumRecursively(upperIndex = 0, previousValues = [], depth = 0) {
   }
 
   return null;
-}
-
-function doSum(total, value) {
-  return total + value;
-}
-
-function multiply(values) {
-  return values.reduce((multiplication, v) => multiplication * v, 1);
 }

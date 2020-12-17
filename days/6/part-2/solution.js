@@ -1,15 +1,12 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
-const { EOL } = require('os');
+const utils = require('../../../utils');
 
-const answers = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' }).trim();
-
-const onlySameAnswersSum = parseAnswers().reduce((sum, answers) => sum + answers, 0);
+const answers = utils.getInput({ trimBeforeSplit: true, shouldDoubleSplit: true });
+const onlySameAnswersSum = utils.add(parseAnswers());
 console.log('onlySameAnswersSum:', onlySameAnswersSum);
 
 function parseAnswers() {
-  return answers.split(EOL.repeat(2)).map((peopleAnswers) => {
-    const groupAnswers = peopleAnswers.split(EOL);
+  return answers.map((peopleAnswers) => {
+    const groupAnswers = peopleAnswers.split(utils.EOL);
 
     sortFromLeastToMostYesAnswers(groupAnswers);
 

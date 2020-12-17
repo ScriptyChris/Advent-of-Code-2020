@@ -1,7 +1,6 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
+const utils = require('../../../utils');
 
-const input = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' });
+const input = utils.getInput({ splitBy: null });
 
 const CONSTANTS = Object.freeze({
   directions: ['N', 'E', 'S', 'W'],

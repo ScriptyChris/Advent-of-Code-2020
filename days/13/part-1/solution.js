@@ -1,10 +1,7 @@
-const { readFileSync } = require('fs');
-const { resolve } = require('path');
-const { EOL } = require('os');
+const utils = require('../../../utils');
 
-let [timestamp, busIds] = readFileSync(resolve(__dirname, '../input.txt'), { encoding: 'utf8' }).split(
-  EOL
-); /*`939
+let [timestamp, busIds] = utils.getInput();
+/*`939
 7,13,x,x,59,x,31,19`.split('\n');*/
 
 timestamp = Number(timestamp);
